@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			.outer{
+				width: 100%;
+			}
+			.left {
+			  width: 120px;
+			  float: left;
+			}
+			.right {
+			  margin-left: 120px;
+			}
+			/* .outer {
+			    width: 100%;
+			    height: 500px;
+			    background-color: yellow;
+			}
+			.left {
+			    width: 200px;
+			    height: 200px;
+			    background-color: red;
+				margin: 0px 10px;
+			    float: left;
+			}
+			.right {
+			    height: 200px;
+			    background-color: blue;
+			} */
+			/* .outer {
+			    width: 100%;
+			    height: 500px;
+			    background-color: yellow;
+			    position: relative;
+			}
+			.left {
+			    width: 200px;
+			    height: 200px;
+			    background-color: red;
+			}
+			.right {
+			    height: 200px;
+			    background-color: blue;
+			    position: absolute;
+			    left: 200px;
+			    top:0;          
+			    right: 0;
+			} */
+			/* .outer {
+			    width: 100%;
+			    height: 500px;
+			    background-color: yellow;
+			    position: relative;
+			}
+			.left {
+			    width: 200px;
+			    height: 200px;
+			    background-color: red;
+			    position: absolute;
+			}
+			.right {
+			    height: 200px;
+			    background-color: blue;
+			    margin-left: 200px;
+			} */
+		</style>
+	</head>
+	<body>
+		<div class="outer">
+		    <div class="left">固定宽度</div>
+		    <div class="right"><div style="width: 100px;height: 100px;background-color: aqua;"></div></div>
+		</div>
+		<!-- <input id="input" value="666" />
+		 <ul id='test'>
+		     <li>这是第一条</li>
+		     <li>这是第二条</li>
+		     <li>这是第三条</li>
+		 </ul> -->
+		<!-- <div style="width: 300px;border: 1px solid #0000FF;">
+			 <div style="height: 300px;border: 1px solid gold;"></div>
+		 </div> -->
+	</body>
+	
+	<script type="text/javascript">
+		function point(x,y){//画点
+			var oDiv=document.createElement('div');
+			oDiv.style.position='absolute';
+			oDiv.style.height='2px';
+			oDiv.style.width='2px';
+			oDiv.style.backgroundColor='red';
+			oDiv.style.left=x+'px';
+			oDiv.style.top=y+'px';
+			//document.body.appendChild(oDiv);
+			return oDiv;//注意：返回的值是一个dom节点，但并未追加到文档中
+		}
+		function drawCircle(){//画个圆
+			var r=200;
+			var x1=300;
+			var y1=300;
+			var frag=document.createDocumentFragment();
+			for(var degree=0;degree<360;degree+=0.1){
+			var x2=r*Math.sin(degree*Math.PI/180);
+			var y2=r*Math.cos(degree*Math.PI/180);
+			frag.appendChild(point(x1+x2,y1+y2));
+			}
+			document.body.appendChild(frag);
+		}
+		function test(){
+			console.log("callee")
+			console.log(arguments.callee)
+			console.log('arguments.length='+arguments.length)
+			console.log('arguments.callee.length='+arguments.callee.length)
+			
+			console.log("...")
+			console.log("caller");
+			console.log(test.caller)
+		}
+		function creatEvent(){
+			//var myEvent = new Event('event_name');
+			var myEvent = new CustomEvent('event_name', {
+			    detail:{
+			        // 将需要传递的数据写在detail中，以便在EventListener中获取
+			        // 数据将会在event.detail中得到
+			    },
+			});
+		}
+		function log(){
+			console.log.apply(window, arguments);
+		}
+		function logMyCall(){
+			console.log.myCall(window,arguments[0],arguments[1])
+			
+		}
+		function logMyApply(){
+			console.log.myApply(window,arguments)
+		}
+		function getDate(){
+			let d = new Date();
+			let year = d.getFullYear()+'';
+			let mounth = d.getMonth()+1;
+			let day = d.getDate();
+			mounth = mounth<10?('0'+mounth):mounth;
+			day	 = day<10?('0'+day):day;
+			console.log(year+'-'+mounth+'-'+day)
+		}
+		function unique(arr) {
+		    var obj = {};
+		    return arr.filter(function(item, index, arr){
+		        return obj.hasOwnProperty(typeof item + item) ? false : (obj[typeof item + item] = true)
+		    })
+		}
+		function deepClone(obj){
+			var objClone = Array.isArray(obj)?[]:{};
+			for(var key in obj){
+				if(typeof obj[key] === 'Object'){
+					objClone[key] = deepClone(obj[key])
+				}else{
+					objClone[key] = obj[key] 
+				}
+			}
+			return objClone;
+		}
+		window.onload=function(){
+			// console.log(Object.prototype.toString.call(1).slice(8,-1));
+			// let a = {
+			// 	name:'lisi',
+			// 	age:'18',
+			// 	dd:[1,2,3]
+			// }
+			// let b = JSON.parse(JSON.stringify(a));
+			// let c = deepClone(a)
+			// a.name = 'zhangsan'
+			// b.age = '99'
+			// b.dd= [4,5,6]
+			// c.name ='alaala'
+			// console.log(a)
+			// console.log(b)
+			// console.log(c)
+		}
+	</script>
+</html>
